@@ -1,0 +1,153 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "first": "Admin",
+      "last": "User",
+      "email": "admin@example.com",
+      "password": "$2b$10$npG0j2k6g6KjnQXF1/pe0uKH5HUxq8OEMfdJujf90tDlsJPNhvwkC",
+      "role": "admin",
+      "verified": true
+    },
+    {
+      "id": 2,
+      "first": "Lance",
+      "last": "Satorre",
+      "email": "lanceerrotas@gmail.com",
+      "password": "$2b$10$qkpD/Zn/w7Pm/L0MZGurNuKg66DVWcVVMP0hO5wpbafzWT0JgE55u",
+      "role": "user",
+      "verified": true
+    },
+    {
+      "id": 6,
+      "first": "Janceint",
+      "last": "asd",
+      "email": "jacinth@gmail.com",
+      "password": "$2b$10$L6beLG0LeVSVebuLOuOETuUSvXpgCMyWG2P5RgWmzWOCDA7yPvIHq",
+      "role": "admin",
+      "verified": true
+    },
+    {
+      "id": 4,
+      "first": "Rj",
+      "last": "satrr",
+      "email": "123@gmail.com",
+      "password": "$2b$10$TafRYqmXnW1nLs33tgyqL.kKV3LIhSsM2BtPjieqccjb9gOB/sZVK",
+      "role": "user",
+      "verified": true
+    }
+  ],
+  "employees": [
+    {
+      "id": "001",
+      "first": "Jordan",
+      "last": "Avery",
+      "position": "Lead Engineer",
+      "dept": "Engineering",
+      "hireDate": "2024-02-12"
+    },
+    {
+      "id": "002",
+      "first": "Abby",
+      "last": "Torres",
+      "position": "Success Manager",
+      "dept": "Customer Success",
+      "hireDate": "2023-11-03"
+    },
+    {
+      "id": "asdasd",
+      "first": "l",
+      "last": "a",
+      "position": "123123",
+      "dept": "Engineering",
+      "hireDate": "2026-03-03",
+      "email": "l.a@gmail.com"
+    }
+  ],
+  "departments": [
+    {
+      "name": "Engineering",
+      "description": "Product dev, automation, and platform support"
+    },
+    {
+      "name": "Customer Success",
+      "description": "Wa ragud"
+    },
+    {
+      "name": "IT",
+      "description": "Bachiler"
+    }
+  ],
+  "requests": [
+    {
+      "id": 1,
+      "type": "Equipment",
+      "items": [
+        "Equipment Item 1"
+      ],
+      "itemsCount": 1,
+      "status": "Approved",
+      "createdBy": "lanceerrotas@gmail.com"
+    },
+    {
+      "id": 9,
+      "type": "Equipment",
+      "items": [
+        "asdasd"
+      ],
+      "itemsCount": 1,
+      "status": "Pending",
+      "createdBy": "jacinth@gmail.com"
+    },
+    {
+      "id": 10,
+      "type": "Equipment",
+      "items": [
+        "123123"
+      ],
+      "itemsCount": 1,
+      "status": "Pending",
+      "createdBy": "jacinth@gmail.com"
+    },
+    {
+      "id": 11,
+      "type": "213",
+      "items": [
+        "Equipment Item 1"
+      ],
+      "itemsCount": 1,
+      "status": "Pending",
+      "createdBy": "jacinth@gmail.com"
+    },
+    {
+      "id": 14,
+      "type": "jacinth",
+      "items": [
+        "Equipment Item 1"
+      ],
+      "itemsCount": 1,
+      "status": "Pending",
+      "createdBy": "jacinth@gmail.com"
+    },
+    {
+      "id": 15,
+      "type": "Equipmentdaw",
+      "items": [
+        "Equipment Item 1"
+      ],
+      "itemsCount": 1,
+      "status": "Pending",
+      "createdBy": "lanceerrotas@gmail.com"
+    },
+    {
+      "id": 16,
+      "type": "gedaw",
+      "items": [
+        "Equipment Item 1"
+      ],
+      "itemsCount": 1,
+      "status": "Approved",
+      "createdBy": "jacinth@gmail.com"
+    }
+  ]
+}
