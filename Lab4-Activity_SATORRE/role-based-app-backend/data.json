@@ -14,7 +14,7 @@
       "first": "Lance",
       "last": "Satorre",
       "email": "lanceerrotas@gmail.com",
-      "password": "$2b$10$qkpD/Zn/w7Pm/L0MZGurNuKg66DVWcVVMP0hO5wpbafzWT0JgE55u",
+      "password": "$2b$10$lFTk8YxBtmJZl4.HzU8phOarVWJBJs.SGZpZ6wfZFYSVFnN4tDLsW",
       "role": "user",
       "verified": true
     },
@@ -53,29 +53,32 @@
       "position": "Success Manager",
       "dept": "Customer Success",
       "hireDate": "2023-11-03"
-    },
-    {
-      "id": "asdasd",
-      "first": "l",
-      "last": "a",
-      "position": "123123",
-      "dept": "Engineering",
-      "hireDate": "2026-03-03",
-      "email": "l.a@gmail.com"
     }
   ],
   "departments": [
     {
-      "name": "Engineering",
-      "description": "Product dev, automation, and platform support"
+      "name": "Information Technology (BSIT)",
+      "description": "Software, data, and networks."
     },
     {
-      "name": "Customer Success",
-      "description": "Wa ragud"
+      "name": "Civil Engineering",
+      "description": "Structures and infrastructure design."
     },
     {
-      "name": "IT",
-      "description": "Bachiler"
+      "name": "Business Administration",
+      "description": "Management, finance, and ops."
+    },
+    {
+      "name": "Criminology",
+      "description": "Law enforcement and justice studies."
+    },
+    {
+      "name": "Mechanical Engineering",
+      "description": "Machines, thermofluids, and design."
+    },
+    {
+      "name": "Hotel and Restaurant Management",
+      "description": "Hospitality and service operations."
     }
   ],
   "requests": [
@@ -96,7 +99,7 @@
         "asdasd"
       ],
       "itemsCount": 1,
-      "status": "Pending",
+      "status": "Approved",
       "createdBy": "jacinth@gmail.com"
     },
     {
@@ -106,7 +109,7 @@
         "123123"
       ],
       "itemsCount": 1,
-      "status": "Pending",
+      "status": "Approved",
       "createdBy": "jacinth@gmail.com"
     },
     {
@@ -116,7 +119,7 @@
         "Equipment Item 1"
       ],
       "itemsCount": 1,
-      "status": "Pending",
+      "status": "Approved",
       "createdBy": "jacinth@gmail.com"
     },
     {
@@ -126,18 +129,8 @@
         "Equipment Item 1"
       ],
       "itemsCount": 1,
-      "status": "Pending",
+      "status": "Approved",
       "createdBy": "jacinth@gmail.com"
-    },
-    {
-      "id": 15,
-      "type": "Equipmentdaw",
-      "items": [
-        "Equipment Item 1"
-      ],
-      "itemsCount": 1,
-      "status": "Pending",
-      "createdBy": "lanceerrotas@gmail.com"
     },
     {
       "id": 16,
@@ -148,6 +141,16 @@
       "itemsCount": 1,
       "status": "Approved",
       "createdBy": "jacinth@gmail.com"
+    },
+    {
+      "id": 7,
+      "type": "Equipment",
+      "items": [
+        "Equipment Item 1"
+      ],
+      "itemsCount": 1,
+      "status": "Pending",
+      "createdBy": "lanceerrotas@gmail.com"
     }
   ]
 }

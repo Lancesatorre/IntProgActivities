@@ -13,13 +13,18 @@ const routeMap = {
     '#/requests': 'requests-page'
 };
 
-const API_BASE = 'http://localhost:3000';
+const api = window.ApiClient;
+const auth = window.Auth;
+const postJson = (...args) => api.postJson(...args);
+
+if (!api || !auth) {
+    throw new Error('ApiClient or Auth not found. Load auth.js and api.js before FullStack.js.');
+}
 
 // DOM Elements - will be initialized in DOMContentLoaded
 let sections, toastContainer, loggedOutNav, loggedInNav, adminLinks, userDropdownToggle, userDropdownMenu, navUserName, profileNameEl, profileEmailEl, profileRoleEl, editProfileBtn, editProfileContainer, editProfileForm, editProfileFirst, editProfileLast, editProfilePassword, cancelEditProfileBtn, showAddEmployeeBtn, employeeFormContainer, employeeForm, cancelEmployeeBtn, employeesTableBody, employeeViewModal, showAddDepartmentBtn, departmentFormContainer, departmentForm, cancelDepartmentBtn, departmentsTableBody, departmentEditModal, departmentEditForm, showAddAccountBtn, accountFormContainer, accountForm, cancelAccountBtn, accountsTableBody, accountViewModal, showNewRequestBtn, requestModal, closeModalBtn, requestForm, requestsTable, requestsTableBody, requestsEmptyState, itemsContainer, empDeptSelect, navRequestsLabel, navRequestsLink, requestsPageTitle;
 
-let currentUser = null, departments = [], employees = [], accounts = [], requests = [], requestItemsWrapper = null, addRequestItemButton = null, editingRequestId = null, editingAccountId = null, accountFormOriginal = null;
-
+let currentUser = null, departments = [], employees = [], accounts = [], requests = [], requestItemsWrapper = null, addRequestItemButton = null, editingRequestId = null, editingAccountId = null, accountFormOriginal = null, editingEmployeeId = null;
 
 function showSection(targetId) {
     sections.forEach(section => {
@@ -49,12 +54,12 @@ function showToast(message, variant = 'success') {
 
 function renderEmployees() {
     if (!employeesTableBody) return;
-    employeesTableBody.innerHTML = employees.map(emp => `<tr><td style="padding: 12px; border-bottom: 1px solid #eee;">${emp.id}</td><td style="padding: 12px; border-bottom: 1px solid #eee;">${emp.first} ${emp.last}</td><td style="padding: 12px; border-bottom: 1px solid #eee;">${emp.position}</td><td style="padding: 12px; border-bottom: 1px solid #eee;">${emp.dept}</td><td style="padding: 12px; border-bottom: 1px solid #eee;"><button class="view-emp-btn" data-emp-id="${emp.id}" style="padding: 6px 12px; border-radius: 4px; border: none; cursor: pointer; background: #5a67d8; color: white;">View</button></td></tr>`).join('');
+    employeesTableBody.innerHTML = employees.map(emp => `<tr><td style="padding: 12px; border-bottom: 1px solid #eee;">${emp.id}</td><td style="padding: 12px; border-bottom: 1px solid #eee;">${emp.first} ${emp.last}</td><td style="padding: 12px; border-bottom: 1px solid #eee;">${emp.position}</td><td style="padding: 12px; border-bottom: 1px solid #eee;">${emp.dept}</td><td style="padding: 12px; border-bottom: 1px solid #eee; white-space: nowrap;"><button class="edit-emp-btn" data-emp-id="${emp.id}" style="padding: 6px 12px; border-radius: 4px; border: none; cursor: pointer; background: #5a67d8; color: white;">Edit</button><button class="delete-emp-btn" data-emp-id="${emp.id}" style="padding: 6px 10px; border-radius: 4px; border: none; cursor: pointer; background: #A30000; color: white; margin-left: 6px;">Delete</button></td></tr>`).join('');
 }
 
 function renderDepartments() {
     if (!departmentsTableBody) return;
-    departmentsTableBody.innerHTML = departments.map(dept => `<tr><td style="padding: 12px; border-bottom: 1px solid #eee;">${dept.name}</td><td style="padding: 12px; border-bottom: 1px solid #eee;">${dept.description}</td><td style="padding: 12px; border-bottom: 1px solid #eee;"><button class="edit-dept-btn" data-dept-name="${dept.name}" style="padding: 6px 12px; border-radius: 4px; border: none; cursor: pointer; background: #5a67d8; color: white;">Edit</button></td></tr>`).join('');
+    departmentsTableBody.innerHTML = departments.map(dept => `<tr><td style="padding: 12px; border-bottom: 1px solid #eee;">${dept.name}</td><td style="padding: 12px; border-bottom: 1px solid #eee;">${dept.description}</td><td style="padding: 12px; border-bottom: 1px solid #eee; white-space: nowrap;"><button class="edit-dept-btn" data-dept-name="${dept.name}" style="padding: 6px 12px; border-radius: 4px; border: none; cursor: pointer; background: #5a67d8; color: white;">Edit</button><button class="delete-dept-btn" data-dept-name="${dept.name}" style="padding: 6px 10px; border-radius: 4px; border: none; cursor: pointer; background: #A30000; color: white; margin-left: 6px;">Delete</button></td></tr>`).join('');
 }
 
 function renderAccounts() {
@@ -285,24 +290,9 @@ function setAuthState(isAuthenticated, user = {}) {
     }
 }
 
-function getAuthHeader() {
-    const token = sessionStorage.getItem('authToken');
-    return token ? { Authorization: `Bearer ${token}` } : {};
-}
-
-function parseJwt(token) {
-    try {
-        return JSON.parse(atob(token.split('.')[1]));
-    } catch (e) {
-        return null;
-    }
-}
-
 async function loadDepartments() {
     try {
-        const response = await fetch(API_BASE + '/api/departments');
-        if (!response.ok) throw new Error('Unable to load departments');
-        const data = await response.json();
+        const data = await api.fetchDepartments();
         departments = data.departments || [];
         renderDepartments();
         updateDepartmentOptions();
@@ -313,9 +303,7 @@ async function loadDepartments() {
 
 async function loadEmployees() {
     try {
-        const response = await fetch(API_BASE + '/api/employees');
-        if (!response.ok) throw new Error('Unable to load employees');
-        const data = await response.json();
+        const data = await api.fetchEmployees();
         employees = data.employees || [];
         renderEmployees();
     } catch (err) {
@@ -325,9 +313,7 @@ async function loadEmployees() {
 
 async function loadAccounts() {
     try {
-        const response = await fetch(API_BASE + '/api/users');
-        if (!response.ok) throw new Error('Unable to load accounts');
-        const data = await response.json();
+        const data = await api.fetchAccounts();
         accounts = data.users || [];
         renderAccounts();
     } catch (err) {
@@ -342,9 +328,7 @@ async function loadRequests() {
         return;
     }
     try {
-        const response = await fetch(API_BASE + '/api/requests');
-        if (!response.ok) throw new Error('Unable to load requests');
-        const data = await response.json();
+        const data = await api.fetchRequests();
         const all = data.requests || [];
         if (currentUser && currentUser.role !== 'admin') {
             // Show this user's requests, plus legacy ones that lack createdBy
@@ -363,23 +347,21 @@ function loadAllAdminData() {
 }
 
 function checkAuthToken() {
-    const token = sessionStorage.getItem('authToken');
+    const token = auth.getToken();
     if (!token) {
-        sessionStorage.removeItem('authUser');
+        auth.clearSession();
         setAuthState(false);
         return;
     }
 
-    const decoded = parseJwt(token);
+    const decoded = auth.parseJwt(token);
     if (!decoded) {
-        sessionStorage.removeItem('authToken');
-        sessionStorage.removeItem('authUser');
+        auth.clearSession();
         setAuthState(false);
         return;
     }
 
-    const stored = sessionStorage.getItem('authUser');
-    const savedUser = stored ? JSON.parse(stored) : null;
+    const savedUser = auth.getStoredUser();
     setAuthState(true, savedUser || decoded);
     loadAllAdminData();
 }
@@ -390,53 +372,41 @@ function hideContainer(container) {
     }
 }
 
-async function postJson(url, body, method = 'POST') {
-    const response = await fetch(API_BASE + url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-    });
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok) {
-        throw new Error(data.error || data.message || 'Request failed');
-    }
-    return data;
-}
-
 // Event delegation for table buttons and modal handlers
 function setupModalHandlers() {
-    // View Employee button - event delegation
+    // Edit Employee button - event delegation
     document.addEventListener('click', (event) => {
-        if (event.target.classList.contains('view-emp-btn')) {
+        if (event.target.classList.contains('edit-emp-btn')) {
             const empId = event.target.getAttribute('data-emp-id');
             const emp = employees.find(e => e.id === empId);
-            if (emp && employeeViewModal) {
-                document.getElementById('emp-view-id').textContent = emp.id;
-                document.getElementById('emp-view-name').textContent = `${emp.first} ${emp.last}`;
-                document.getElementById('emp-view-position').textContent = emp.position;
-                document.getElementById('emp-view-dept').textContent = emp.dept;
-                document.getElementById('emp-view-hiredate').textContent = emp.hireDate;
-                employeeViewModal.style.display = 'flex';
+            if (emp && employeeFormContainer) {
+                editingEmployeeId = emp.id;
+                employeeForm?.reset();
+                document.getElementById('emp-id').value = emp.id;
+                document.getElementById('emp-id').disabled = true;
+                document.getElementById('emp-email').value = emp.email || '';
+                document.getElementById('emp-position').value = emp.position || '';
+                document.getElementById('emp-dept').value = emp.dept || '';
+                document.getElementById('emp-hire-date').value = emp.hireDate || '';
+                employeeFormContainer.style.display = 'block';
             }
         }
     });
 
-    // Close Employee Modal - event delegation
-    document.addEventListener('click', (event) => {
-        if (event.target.classList.contains('close-emp-modal')) {
-            if (employeeViewModal) {
-                employeeViewModal.style.display = 'none';
+    // Delete Employee button - event delegation
+    document.addEventListener('click', async (event) => {
+        if (event.target.classList.contains('delete-emp-btn')) {
+            const empId = event.target.getAttribute('data-emp-id');
+            if (!confirm('Delete this employee?')) return;
+            try {
+                await postJson(`/api/employees/${encodeURIComponent(empId)}`, {}, 'DELETE');
+                showToast('Employee deleted', 'success');
+                await loadEmployees();
+            } catch (err) {
+                showToast(err.message, 'error');
             }
         }
     });
-
-    if (employeeViewModal) {
-        employeeViewModal.addEventListener('click', (event) => {
-            if (event.target === employeeViewModal) {
-                employeeViewModal.style.display = 'none';
-            }
-        });
-    }
 
     // Edit Department button - event delegation
     document.addEventListener('click', (event) => {
@@ -448,6 +418,21 @@ function setupModalHandlers() {
                 document.getElementById('dept-edit-desc').value = dept.description;
                 departmentEditModal.style.display = 'flex';
                 departmentEditModal.dataset.originalName = deptName;
+            }
+        }
+    });
+
+    // Delete Department button - event delegation
+    document.addEventListener('click', async (event) => {
+        if (event.target.classList.contains('delete-dept-btn')) {
+            const deptName = event.target.getAttribute('data-dept-name');
+            if (!confirm('Delete this department?')) return;
+            try {
+                await postJson('/api/departments/' + encodeURIComponent(deptName), {}, 'DELETE');
+                showToast('Department deleted', 'success');
+                await loadDepartments();
+            } catch (err) {
+                showToast(err.message, 'error');
             }
         }
     });
@@ -560,7 +545,7 @@ function setupModalHandlers() {
 
 window.addEventListener('hashchange', handleHashChange);
 
-document.addEventListener('DOMContentLoaded', () => {
+function initApp() {
     sections = Array.from(document.querySelectorAll('main section'));
     toastContainer = document.getElementById('toast-container');
     loggedOutNav = document.getElementById('logged-out-nav');
@@ -610,7 +595,6 @@ document.addEventListener('DOMContentLoaded', () => {
     navRequestsLabel = document.getElementById('nav-requests-label');
     navRequestsLink = document.getElementById('nav-requests-link');
     requestsPageTitle = document.getElementById('requests-page-title');
-
     handleHashChange();
     checkAuthToken();
     loadAllAdminData();
@@ -630,11 +614,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('login-email').value;
         const password = document.getElementById('login-password').value;
         try {
-            const response = await fetch(API_BASE + '/api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email, password }) });
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.error || 'Login failed');
-            sessionStorage.setItem('authToken', data.token);
-            sessionStorage.setItem('authUser', JSON.stringify(data.user));
+            const data = await postJson('/api/login', { email, password });
+            auth.setSession(data.token, data.user);
             setAuthState(true, data.user);
             await loadAllAdminData();
             showToast('Successfully logged in!', 'success');
@@ -650,17 +631,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = document.getElementById('reg-email').value;
         const password = document.getElementById('reg-password').value;
         try {
-            const response = await fetch(API_BASE + '/api/register', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ first, last, email, password }) });
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.error || data.message || 'Registration failed');
+            await postJson('/api/register', { first, last, email, password });
             showToast('Registration successful! You can now log in.', 'success');
             await loadAccounts();
             window.location.hash = '#/login';
         } catch (err) { showToast(err.message, 'error'); }
     });
 
-    if (showAddEmployeeBtn && employeeFormContainer) showAddEmployeeBtn.addEventListener('click', () => { employeeForm?.reset(); updateDepartmentOptions(); employeeFormContainer.style.display = 'block'; });
-    if (cancelEmployeeBtn && employeeFormContainer) cancelEmployeeBtn.addEventListener('click', () => hideContainer(employeeFormContainer));
+    if (showAddEmployeeBtn && employeeFormContainer) showAddEmployeeBtn.addEventListener('click', () => { editingEmployeeId = null; employeeForm?.reset(); const idInput = document.getElementById('emp-id'); if (idInput) idInput.disabled = false; updateDepartmentOptions(); employeeFormContainer.style.display = 'block'; });
+    if (cancelEmployeeBtn && employeeFormContainer) cancelEmployeeBtn.addEventListener('click', () => { editingEmployeeId = null; const idInput = document.getElementById('emp-id'); if (idInput) idInput.disabled = false; hideContainer(employeeFormContainer); });
     if (employeeForm) employeeForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const id = document.getElementById('emp-id').value.trim();
@@ -686,9 +665,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const first = (firstPart || local || 'New').trim();
         const last = (lastPart || 'User').trim();
         try {
-            await postJson('/api/employees', { id, first: first || 'New', last: last || '', email, position, dept, hireDate });
-            showToast('Employee record added', 'success');
+            if (editingEmployeeId) {
+                await postJson(`/api/employees/${encodeURIComponent(editingEmployeeId)}`, { first: first || 'New', last: last || '', email, position, dept, hireDate }, 'PUT');
+                showToast('Employee record updated', 'success');
+            } else {
+                await postJson('/api/employees', { id, first: first || 'New', last: last || '', email, position, dept, hireDate });
+                showToast('Employee record added', 'success');
+            }
             hideContainer(employeeFormContainer);
+            editingEmployeeId = null;
+            const idInput = document.getElementById('emp-id'); if (idInput) idInput.disabled = false;
             await loadEmployees();
         } catch (err) { showToast(err.message, 'error'); }
     });
@@ -784,7 +770,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const logoutBtn = document.getElementById('logout-btn');
-    if (logoutBtn) logoutBtn.addEventListener('click', (e) => { e.preventDefault(); sessionStorage.removeItem('authToken'); sessionStorage.removeItem('authUser'); setAuthState(false); showToast('Logged out successfully', 'success'); window.location.hash = '#/'; });
+    if (logoutBtn) logoutBtn.addEventListener('click', (e) => { e.preventDefault(); auth.clearSession(); setAuthState(false); showToast('Logged out successfully', 'success'); window.location.hash = '#/'; });
 
     if (editProfileBtn && editProfileContainer) editProfileBtn.addEventListener('click', () => { editProfileContainer.style.display = 'block'; editProfileFirst?.focus(); });
     if (cancelEditProfileBtn && editProfileContainer) cancelEditProfileBtn.addEventListener('click', () => hideContainer(editProfileContainer));
@@ -796,11 +782,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = editProfilePassword?.value.trim();
         try {
             currentUser = { ...currentUser, first, last };
-            sessionStorage.setItem('authUser', JSON.stringify(currentUser));
+            auth.setStoredUser(currentUser);
             renderProfile(currentUser);
             if (password) await postJson('/api/profile/password', { email: currentUser.email, newPassword: password }, 'PUT');
             showToast('Profile updated successfully', 'success');
             hideContainer(editProfileContainer);
         } catch (err) { showToast(err.message, 'error'); }
     });
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    initApp();
+}
