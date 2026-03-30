@@ -304,8 +304,6 @@ All files are present in the `typescript-crud-api` folder:
 
 **Prompt:** How did TypeScript change your development experience? Did you catch any errors at compile time that would have been runtime bugs in JavaScript?
 
-**Example Reflection (Fill in your own):**
-
 > "TypeScript significantly improved my development experience by catching type-related errors before runtime. For example, the strongly-typed User model interfaces (`UserAttributes`, `UserCreationAttributes`) prevented accidental property access on undefined fields. The `Role` enum ensured only valid role values ('Admin', 'User') could be assigned, eliminating invalid string bugs that would have occurred in plain JavaScript. The strict function signatures (return types like `Promise<User[]>`) made it clear what each service method returns, reducing debugging time. Overall, TypeScript transformed potential runtime headaches into compile-time catches, making the codebase more maintainable and reliable."
 
 ---
