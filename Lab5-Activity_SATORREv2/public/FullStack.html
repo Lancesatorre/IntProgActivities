@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-Stack App</title>
+    <script>
+        (function () {
+            var route = (window.location.hash || "#/").replace(/^#\//, "").toLowerCase();
+            var pathMap = {
+                "": "home.html",
+                "home": "home.html",
+                "user-home": "user-home.html",
+                "admin-home": "admin-home.html",
+                "login": "login.html",
+                "register": "register.html",
+                "verify": "verify.html",
+                "profile": "profile.html",
+                "employees": "employees.html",
+                "accounts": "accounts.html",
+                "departments": "departments.html",
+                "requests": "requests.html"
+            };
+
+            var target = pathMap[route] || "home.html";
+            window.location.replace(target);
+        })();
+    </script>
+</head>
+
+<body>
+    <p>Redirecting...</p>
+</body>
+
+</html>

@@ -1,0 +1,218 @@
+
+@media (max-width: 600px) {
+    #nav-links {
+        gap: 8px !important;
+    }
+
+    #home-card {
+        padding: 4vw !important;
+    }
+
+    .form-card {
+        padding: 6vw 5vw !important;
+        width: 80vw !important;
+        min-width: unset !important;
+    }
+
+    .form-card form {
+        width: 100% !important;
+    }
+
+    #profile-page,
+    #employees-page,
+    #departments-page,
+    #accounts-page,
+    #requests-page {
+        padding: 14px !important;
+    }
+
+    .page-table {
+        font-size: 12px !important;
+    }
+
+    .page-table th,
+    .page-table td {
+        padding: 8px 6px !important;
+    }
+
+    #request-modal > div {
+        width: 92vw !important;
+    }
+
+    .action-btns {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+}
+
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    min-width: 250px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.toast.success {
+    background-color: #1f1f1f;
+}
+
+.toast.error {
+    background-color: #4d4d4d;
+}
+
+:root {
+    --mono-black: #111111;
+    --mono-charcoal: #2a2a2a;
+    --mono-gray-1: #565656;
+    --mono-gray-2: #9a9a9a;
+    --mono-gray-3: #d7d7d7;
+    --mono-gray-4: #eeeeee;
+    --mono-white: #ffffff;
+}
+
+body {
+    background: linear-gradient(165deg, #f8f8f8 0%, #e9e9e9 100%) !important;
+    color: var(--mono-black) !important;
+}
+
+main {
+    background: transparent !important;
+}
+
+nav {
+    background: var(--mono-black) !important;
+    color: var(--mono-white) !important;
+    border-bottom: 1px solid #000 !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.24) !important;
+}
+
+nav a,
+#user-dropdown-toggle,
+#nav-user-name {
+    color: var(--mono-white) !important;
+}
+
+#user-dropdown-menu,
+#account-view-modal > div,
+#employee-view-modal > div,
+#department-edit-modal > div,
+#request-modal > div {
+    background: var(--mono-white) !important;
+    border: 1px solid var(--mono-gray-3) !important;
+}
+
+#user-dropdown-menu a {
+    color: var(--mono-black) !important;
+}
+
+#user-dropdown-menu a:hover {
+    background: var(--mono-gray-4) !important;
+}
+
+#logout-btn {
+    color: #000 !important;
+    font-weight: 700;
+}
+
+section,
+.form-card,
+#home-card,
+#profile-details-container,
+#employee-form-container,
+#department-form-container,
+#account-form-container,
+#edit-profile-form-container,
+.hero-panel,
+.meta-panel,
+.stat,
+.feature {
+    background: var(--mono-white) !important;
+    border-color: var(--mono-charcoal) !important;
+    color: var(--mono-black) !important;
+}
+
+.page-table,
+.page-table thead,
+.page-table tbody,
+.page-table tr,
+.page-table th,
+.page-table td,
+#requests-table {
+    border-color: var(--mono-gray-2) !important;
+    color: var(--mono-black) !important;
+    background: var(--mono-white) !important;
+}
+
+.page-table thead tr,
+#requests-table thead tr {
+    background: var(--mono-gray-4) !important;
+}
+
+button,
+.btn,
+input[type="submit"],
+input[type="button"] {
+    background: var(--mono-black) !important;
+    color: var(--mono-white) !important;
+    border: 1px solid var(--mono-black) !important;
+}
+
+button:hover,
+.btn:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+    background: var(--mono-charcoal) !important;
+}
+
+a[style*="background: white"],
+a[style*="background:white"],
+button[style*="background: white"],
+button[style*="background:white"] {
+    background: var(--mono-white) !important;
+    color: var(--mono-black) !important;
+    border: 1px solid var(--mono-gray-1) !important;
+}
+
+input,
+select,
+textarea {
+    background: #fcfcfc !important;
+    color: var(--mono-black) !important;
+    border-color: var(--mono-gray-2) !important;
+}
+
+label,
+p,
+li,
+span,
+h1,
+h2,
+h3,
+h4 {
+    color: inherit;
+}

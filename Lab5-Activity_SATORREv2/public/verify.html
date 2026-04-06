@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify - Full-Stack App</title>
+  <link rel="stylesheet" href="FullStack.css">
+</head>
+
+<body style="margin: 0; font-family: sans-serif; background-color: #fafafa;">
+  <div id="toast-container"></div>
+  <nav
+    style="display: flex; justify-content: space-between; align-items: center; padding: 10px clamp(16px, 4vw, 40px); background: #222; color: white; box-shadow: 5px 5px 10px 2px rgba(77, 77, 77, 1); position: relative; z-index: 1000; flex-wrap: wrap; gap: 8px;">
+    <a href="home.html"
+      style="color: white; text-decoration: none; font-size: clamp(0.75rem, 2vw, 1rem); flex-shrink: 1; min-width: 0;">Full-Stack
+      App (LANCE TIMOTHY SATORRE)</a>
+    <div style="display: flex; justify-content: center; align-items: center; padding: 5px; flex-shrink: 0;">
+      <ul id="logged-out-nav" style="list-style: none; display: flex; gap: 15px; margin: 0; padding: 0;">
+        <li><a href="login.html"
+            style="color: white; text-decoration: none; font-size: clamp(0.8rem, 2vw, 1rem);">Login</a></li>
+        <li><a href="register.html"
+            style="color: white; text-decoration: none; font-size: clamp(0.8rem, 2vw, 1rem);">Register</a>
+        </li>
+      </ul>
+      <ul id="logged-in-nav" style="list-style: none; display: none; margin: 0; padding: 0; position: relative;">
+        <li>
+          <div id="user-dropdown-toggle"
+            style="color: white; cursor: pointer; display: flex; align-items: center; gap: 5px; font-weight: bold;">
+            <span id="nav-user-name" style="font-size: clamp(0.8rem, 2vw, 1rem);"></span>
+            <span style="font-size: 0.8em;">▼</span>
+          </div>
+          <div id="user-dropdown-menu"
+            style="display: none; position: absolute; top: 35px; right: 0; background: white; border-radius: 5px; box-shadow: 0px 4px 10px rgba(0,0,0,0.2); width: 160px; overflow: hidden; font-size: 14px; text-align: left; z-index: 9999;">
+            <a href="profile.html"
+              style="display: block; padding: 10px 15px; color: black; text-decoration: none; border-bottom: 1px solid #f0f0f0;">Profile</a>
+            <div id="admin-links" style="display: none;">
+              <a href="employees.html"
+                style="display: block; padding: 10px 15px; color: black; text-decoration: none; border-bottom: 1px solid #f0f0f0;">Employees</a>
+              <a href="accounts.html"
+                style="display: block; padding: 10px 15px; color: black; text-decoration: none; border-bottom: 1px solid #f0f0f0;">Accounts</a>
+              <a href="departments.html"
+                style="display: block; padding: 10px 15px; color: black; text-decoration: none; border-bottom: 1px solid #f0f0f0;">Departments</a>
+            </div>
+            <a href="requests.html" id="nav-requests-link"
+              style="display: block; padding: 10px 15px; color: black; text-decoration: none; border-bottom: 1px solid #f0f0f0;">
+              <span id="nav-requests-label">My Requests</span>
+            </a>
+            <a href="#" id="logout-btn"
+              style="display: block; padding: 10px 15px; color: #A30000; text-decoration: none;">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main
+    style="margin-top: 1rem; min-height: 90vh; width: 100%; display: flex; justify-content: center; align-items: flex-start; padding: 20px clamp(12px, 3vw, 40px); background-color: #c9c7c7; box-sizing: border-box;">
+    <section id="verify-page" style="display: block; width: 100%; max-width: 800px;">
+      <div
+        style="background: white; padding: clamp(20px, 5vw, 40px); border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; box-sizing: border-box;">
+        <h1 style="margin: 0 0 20px 0; font-size: clamp(1.6rem, 5vw, 2.5rem); color: #333; font-weight: normal;">
+          Verify Your Email</h1>
+
+        <div
+          style="background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: 15px 20px; border-radius: 5px; margin-bottom: 30px; display: flex; align-items: flex-start; gap: 10px; flex-wrap: wrap;">
+          <span style="font-size: 1.2rem;">✅</span>
+          <span style="font-size: clamp(0.85rem, 2vw, 1rem);">A verification link has been sent to <strong
+              id="verify-email-display"></strong>.</span>
+        </div>
+
+        <p style="color: #444; margin-bottom: 20px; font-size: clamp(0.9rem, 2vw, 1.1rem);">For demo purposes,
+          click below to simulate verification:</p>
+
+        <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+          <button id="simulate-verify-btn"
+            style="background: #2D7A4D; color: white; border: none; border-radius: 5px; padding: 12px 24px; cursor: pointer; font-weight: bold; font-size: clamp(0.85rem, 2vw, 1rem); display: flex; align-items: center; gap: 10px;">
+            <span
+              style="background: white; color: #2D7A4D; border-radius: 3px; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem;">✓</span>
+            Simulate Email Verification
+          </button>
+
+          <a href="login.html" style="text-decoration: none;">
+            <button
+              style="background: white; color: #555; border: 1px solid #ccc; border-radius: 5px; padding: 12px 24px; cursor: pointer; font-size: clamp(0.85rem, 2vw, 1rem);">
+              Go to Login
+            </button>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>window.location.hash = '#/verify';</script>
+  <script src="auth.js"></script>
+  <script src="api.js"></script>
+  <script src="FullStack.js"></script>
+</body>
+
+</html>
